@@ -5,7 +5,7 @@ install:
 	pip3 install -r requirements.txt
 
 sysinstall:
-	pip3 install -r requirements.txt
+	pip3 install --target /usr/lib/python3/dist-packages -r requirements.txt
 
 sysuninstall:
-	pip3 uninstall -r requirements.txt
+	pip3 uninstall --target /usr/lib/python3/dist-packages -r requirements.txt
