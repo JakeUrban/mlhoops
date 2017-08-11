@@ -3,4 +3,4 @@ install:
 	virtualenv -p python3 .venv
 	. .venv/bin/activate
 	pip3 install -r requirements.txt
-	python3 mlhoops.py
+	python3 mlhoops/mlhoops.py
