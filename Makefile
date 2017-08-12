@@ -6,8 +6,8 @@ venv: requirements.txt
 	@. $(ACTIVATE); python3 -m pip install -r requirements.txt
 	@touch $(ACTIVATE)
 
-sysinstall:
+install:
 	@pip3 install --target /usr/lib/python3/dist-packages -r requirements.txt
 
-sysuninstall:
+uninstall:
 	@pip3 uninstall --target /usr/lib/python3/dist-packages -r requirements.txt
