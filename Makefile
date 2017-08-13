@@ -4,6 +4,7 @@ venv: requirements.txt
 	@pip3 install virtualenv
 	@virtualenv -p python3 .venv
 	@. $(ACTIVATE); python3 -m pip install -r requirements.txt
+	@. $(ACTIVATE); python3 setup.py develop
 	@touch $(ACTIVATE)
 
 install:
