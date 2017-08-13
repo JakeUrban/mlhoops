@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declaritive import declaritive_base
+from sqlalchemy.ext.declarative import declaritive_base
 from sqlalchemy.orm import sessionmaker
 from flask import g
 
