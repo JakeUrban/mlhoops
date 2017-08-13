@@ -1,7 +1,7 @@
 """Create game model
 
 Revision ID: 3a339b210096
-Revises: 
+Revises:
 Create Date: 2017-08-12 17:12:37.113174
 
 """
