@@ -5,8 +5,8 @@ Revises:
 Create Date: 2017-08-12 17:12:37.113174
 
 """
-from alembic import op
-import sqlalchemy as sa
+from alembic import op  # noqa
+import sqlalchemy as sa  # noqa
 
 
 # revision identifiers, used by Alembic.

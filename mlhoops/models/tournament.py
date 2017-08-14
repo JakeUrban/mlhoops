@@ -1,7 +1,6 @@
 from sqlalchemy import Column, Integer, ForeignKey
 
 from mlhoops.db.base import Base
-from mlhoops.models.season import Season
 
 
 class Tournament(Base):

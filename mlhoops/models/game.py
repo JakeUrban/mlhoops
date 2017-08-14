@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, ForeignKey, Boolean, DateTime, String
 
 from mlhoops.db.base import Base
 
+
 class Game(Base):
     """
     Represents a NCAA basketball game

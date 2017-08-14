@@ -3,7 +3,7 @@ from alembic import context
 from sqlalchemy import engine_from_config, pool
 from logging.config import fileConfig
 from mlhoops.db.base import Base
-from mlhoops import models
+from mlhoops import models  # noqa
 
 
 # this is the Alembic Config object, which provides
@@ -64,6 +64,7 @@ def run_migrations_online():
 
         with context.begin_transaction():
             context.run_migrations()
+
 
 if context.is_offline_mode():
     run_migrations_offline()
