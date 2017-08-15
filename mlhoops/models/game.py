@@ -23,7 +23,7 @@ class Game(Base):
                  tournament_game=False):
         self.home_team = home_team
         self.away_team = away_team
-        self.season_id = self.season_id
+        self.season_id = season_id
         self.date_played = date_played
         self.stats_file = stats_file
         self.home_team_score = home_team_score
