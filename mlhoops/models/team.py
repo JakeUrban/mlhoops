@@ -14,8 +14,10 @@ class Team(Base):
     season_id = Column(Integer, ForeignKey('seasons.id'), nullable=False)
     stats_file = Column(String(255), nullable=False)
     players = relationship('Player', back_populates='teams')
+    tournament_id = Column(Integer, ForeignKey('tournaments.id'))
 
-    def __init__(self, name, season_id, stats_file):
+    def __init__(self, name, season_id, stats_file, tournament_id=None):
         self.name = name
         self.season_id = season_id
         self.stats_file = stats_file
+        self.tournament_id = tournament_id
