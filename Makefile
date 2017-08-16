@@ -3,7 +3,8 @@ ACTIVATE := .venv/bin/activate
 TEST_OPTS := --cov=mlhoops --cov=tests --cov-fail-under=100 \
 	--cov-report term-missing:skip-covered
 
-venv: requirements.txt
+venv: $(ACTIVATE)
+$(ACTIVATE): requirements.txt requirements_test.txt setup.py
 	@pip3 install virtualenv
 	@virtualenv -p python3 .venv
 	@. $(ACTIVATE); python3 -m pip install -r requirements.txt
