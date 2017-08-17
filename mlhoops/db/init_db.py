@@ -1,7 +1,7 @@
 from alembic import command
 from alembic.config import Config
 
-from mlhoops.db.session import engine, session
+from mlhoops.db.session import engine
 from mlhoops.db.base import Base
 
 

@@ -8,6 +8,7 @@ engine = create_engine(environment.get(
     'mysql+pymysql://Jake@localhost/mlhoops')
 )
 
+
 def get_db():
     if not hasattr(g, 'session'):
         g.session = sessionmaker(bind=engine)()
