@@ -19,13 +19,13 @@ class Game(Base):
     stats_file = Column(String(255), nullable=False)
 
     def __init__(self, home_team, away_team, season_id, date_played,
-                 stats_file, home_team_score=0, away_team_score=0,
-                 tournament_game=False):
+                 home_team_score=0, away_team_score=0, tournament_game=False):
         self.home_team = home_team
         self.away_team = away_team
         self.season_id = season_id
         self.date_played = date_played
-        self.stats_file = stats_file
         self.home_team_score = home_team_score
         self.away_team_score = away_team_score
         self.tournament_game = tournament_game
+        self.stats_file = '_'.join([str(home_team), str(away_team),
+                                    str(date_played)])

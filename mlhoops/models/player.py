@@ -13,7 +13,8 @@ class Player(Base):
     team_id = Column(Integer, ForeignKey('teams.id'), nullable=False)
     stats_file = Column(String(255), nullable=False)
 
-    def __init__(self, name, team_id, stats_file):
+    def __init__(self, name, team_id):
         self.name = name
         self.team_id = team_id
-        self.stats_file = stats_file
+        self.stats_file = '_'.join([name.replace(' ', '-').lower(),
+                                    str(team_id)])

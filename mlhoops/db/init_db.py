@@ -1,7 +1,9 @@
+from datetime import datetime
+
 from alembic import command
 from alembic.config import Config
 
-from mlhoops.db.session import engine
+from mlhoops.db.session import engine, session
 from mlhoops.db.base import Base
 
 
@@ -19,7 +21,20 @@ def init_db():
 
 
 def init_db_data():
-    pass
+    season_data = [{'year': 2016}]
+    team_data = [
+        {'name': 'Oregon', 'stats_file': 'oregon.csv'},
+        {'name': 'Oregon State', 'state_file': 'oregon_state.csv'}
+    ]
+    game_data = [
+        {'date_played': datetime.utcnow(),
+         'stats_file': 'oregon_v_oregon_state.csv', 'home_team_score': 100,
+         'away_team_score': 52, 'tournament_game': True}
+    ]
+    player_data = [
+        {'name': 'Jordan Bell', 'team_name': 'Oregon'},
+        {'name': 'Ronnie Stacy', 'team_name': 'Oregon State'}
+    ]
 
 
 if __name__ == '__main__':
