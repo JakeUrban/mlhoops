@@ -12,6 +12,7 @@ Install the environment:
     - $ make venv
 - system install
     - $ make install
+
 Initialize the database:
 - Create a local mysql database <db_name> (mlhoops is suggested)
 - Activate the virtual environment, then:
