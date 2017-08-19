@@ -2,7 +2,7 @@ from __future__ import with_statement
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 from logging.config import fileConfig
-from mlhoops.db.session import Base
+from mlhoops.db import Base
 from mlhoops import models  # noqa
 
 

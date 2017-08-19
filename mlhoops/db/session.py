@@ -9,7 +9,7 @@ engine = create_engine(environ.get(
     'mysql+pymysql://Jake@localhost/mlhoops')
 )
 
-Base = declaritive_base(bind=engine)
+Base = declarative_base(bind=engine)
 
 
 def get_db():
@@ -19,6 +19,3 @@ def get_db():
         return g.session
     except RuntimeError:
         return sessionmaker(bind=engine)()
-
-
-session = get_db()
