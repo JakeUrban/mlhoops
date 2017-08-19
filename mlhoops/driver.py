@@ -1,5 +1,8 @@
 from flask import Flask
+from mlhoops.config import config
+
 app = Flask(__name__)
+app.config.update(config)
 
 
 @app.route('/')

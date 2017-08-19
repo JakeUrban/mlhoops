@@ -15,6 +15,7 @@ Base = declarative_base(bind=engine)
 # we need a database connection outside of the apps context
 OUT_OF_CONTEXT_SESSION = None
 
+
 def get_db():
     try:
         if not hasattr(g, 'session'):
