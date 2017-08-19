@@ -10,8 +10,6 @@ Machine learning application of NCAA basketball game predictions
 Install the environment:
 - virtual environment
     - $ make venv
-- system install
-    - $ make install
 
 Initialize the database:
 - Create a local mysql database <db_name> (mlhoops is suggested)
