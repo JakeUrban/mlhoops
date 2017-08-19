@@ -3,8 +3,7 @@ from datetime import datetime
 from alembic import command
 from alembic.config import Config
 
-from mlhoops.db.session import engine, session
-from mlhoops.db.base import Base
+from mlhoops.db.session import Base, engine, session
 from mlhoops.models import Team, Player, Season, Tournament, Game
 
 
@@ -73,6 +72,8 @@ def init_db_data():
 
 
 if __name__ == '__main__':
+    Base.metadata.bind = engine
     drop_db()
     init_db()
     init_db_data()
+    session().close()

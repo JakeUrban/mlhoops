@@ -1,5 +1,10 @@
-from mlhoops.models import season  # noqa
-from mlhoops.models import player  # noqa
-from mlhoops.models import game  # noqa
-from mlhoops.models import team  # noqa
-from mlhoops.models import tournament  # noqa
+import mlhoops.models.season  # noqa
+import mlhoops.models.player  # noqa
+import mlhoops.models.game  # noqa
+import mlhoops.models.team  # noqa
+import mlhoops.models.tournament  # noqa
+Season = season.Season
+Player = player.Player
+Game = game.Game
+Team = team.Team
+Tournament = tournament.Tournament

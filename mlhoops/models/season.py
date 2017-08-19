@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer
 from sqlalchemy.orm import relationship
 
-from mlhoops.db.base import Base
+from mlhoops.db.session import Base
 
 
 class Season(Base):

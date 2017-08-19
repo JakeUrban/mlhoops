@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, ForeignKey, Boolean, DateTime, String
 
-from mlhoops.db.base import Base
+from mlhoops.db.session import Base
 from mlhoops.game.util import get_game_stats_file
 
 

@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, ForeignKey
 from sqlalchemy.orm import relationship
 
-from mlhoops.db.base import Base
+from mlhoops.db.session import Base
 
 
 class Tournament(Base):

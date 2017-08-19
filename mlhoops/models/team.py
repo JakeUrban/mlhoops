@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, ForeignKey, String
 from sqlalchemy.orm import relationship
 
-from mlhoops.db.base import Base
+from mlhoops.db.session import Base
 from mlhoops.team.util import get_team_stats_file
 
 
