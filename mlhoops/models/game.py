@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, ForeignKey, Boolean, DateTime, String
 
 from mlhoops.db.base import Base
+from mlhoops.game.util import get_game_stats_file
 
 
 class Game(Base):
@@ -27,5 +28,4 @@ class Game(Base):
         self.home_team_score = home_team_score
         self.away_team_score = away_team_score
         self.tournament_game = tournament_game
-        self.stats_file = '_'.join([str(home_team), str(away_team),
-                                    str(date_played)])
+        self.stats_file = get_game_stats_file(self)

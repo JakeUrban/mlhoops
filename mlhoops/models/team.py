@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, ForeignKey, String
 from sqlalchemy.orm import relationship
 
 from mlhoops.db.base import Base
+from mlhoops.team.util import get_team_stats_file
 
 
 class Team(Base):
@@ -20,5 +21,4 @@ class Team(Base):
         self.name = name
         self.season_id = season_id
         self.tournament_id = tournament_id
-        self.stats_file = '_'.join([name.replace(' ', '-').lower(),
-                                    str(season_id)])
+        self.stats_file = get_team_stats_file(self)

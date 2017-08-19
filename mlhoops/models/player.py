@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
 
 from mlhoops.db.base import Base
+from mlhoops.player.util import get_player_stats_file
 
 
 class Player(Base):
@@ -16,5 +17,4 @@ class Player(Base):
     def __init__(self, name, team_id):
         self.name = name
         self.team_id = team_id
-        self.stats_file = '_'.join([name.replace(' ', '-').lower(),
-                                    str(team_id)])
+        self.stats_file = get_player_stats_file(self)
