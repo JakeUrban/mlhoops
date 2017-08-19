@@ -7,8 +7,6 @@ from mlhoops.db import Base, engine, session
 from mlhoops.models import Team, Player, Season, Tournament, Game
 
 
-# not in application context, so we need to initiaize session
-session = session()
 Base.metadata.reflect(bind=engine)
 
 
@@ -42,43 +40,43 @@ def init_db_data():
     ]
     for season in season_data:
         season = Season(season['year'])
-        session.add(season)
-        session.flush()
+        session().add(season)
+        session().flush()
 
         tournament = Tournament(season.id)
-        session.add(tournament)
-        session.flush()
+        session().add(tournament)
+        session().flush()
 
         for team in team_data:
             team = Team(team['name'], season.id, tournament.id)
-            session.add(team)
-            session.flush()
+            session().add(team)
+            session().flush()
 
             for player in player_data:
                 if player['team_name'] == team.name:
                     player = Player(player['name'], team.id)
-                    session.add(player)
-                    session.flush()
+                    session().add(player)
+                    session().flush()
 
     # need to commit so we can query team table
-    session.commit()
+    session().commit()
 
     for game in game_data:
-        game['home_team'] = session.query(Team).\
+        game['home_team'] = session().query(Team).\
             filter(Team.name == game['home_team']['name']).first().id
-        game['away_team'] = session.query(Team).\
+        game['away_team'] = session().query(Team).\
             filter(Team.name == game['away_team']['name']).first().id
-        game['season'] = session.query(Season).\
+        game['season'] = session().query(Season).\
             filter(Season.year == game['season']['year']).first().id
         game = Game(**game)
-        session.add(game)
-        session.flush()
+        session().add(game)
+        session().flush()
 
-    session.commit()
+    session().commit()
 
 
 if __name__ == '__main__':
     drop_db()
     init_db()
     init_db_data()
-    session.close()
+    session().close()
