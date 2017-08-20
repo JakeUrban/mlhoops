@@ -1,6 +1,6 @@
 ACTIVATE := .venv/bin/activate
 
-TEST_OPTS := --cov=mlhoops --cov=tests --cov-fail-under=100 \
+TEST_OPTS := --cov=mlhoops --cov-fail-under=100 \
 	--cov-report term-missing:skip-covered
 
 venv: $(ACTIVATE)
@@ -22,4 +22,4 @@ style: venv
 	@. $(ACTIVATE); flake8 --exclude=.venv,migrations .
 
 test: venv
-	@. $(ACTIVATE); py.test $(TEST_OPTS) tests/
+	@. $(ACTIVATE); py.test $(TEST_OPTS) mlhoops/

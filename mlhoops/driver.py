@@ -11,7 +11,7 @@ def hello_world():
 
 
 def main():
-    app.run()
+    app.run()  # pragma: no cover
 
 
 if __name__ == '__main__':

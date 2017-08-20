@@ -21,7 +21,7 @@ def get_db():
         if not hasattr(g, 'session'):
             g.session = sessionmaker(bind=engine)()
         return g.session
-    except RuntimeError:
+    except RuntimeError:  # pragma: no cover
         global OUT_OF_CONTEXT_SESSION
         if not OUT_OF_CONTEXT_SESSION:
             OUT_OF_CONTEXT_SESSION = sessionmaker(bind=engine)()
