@@ -21,11 +21,10 @@ def upgrade():
         'teams',
         Column('tournament_id',
                Integer,
-               ForeignKey('tournaments.id', name='tournament_fk'),
-               nullable=True)
-    )
+               ForeignKey('tournaments.id'),
+               nullable=True))
 
 
 def downgrade():
-    op.drop_constraint('tournament_fk', 'tournaments', type_='foreignkey')
+    op.drop_constraint('teams_ibfk_2', 'teams', type_='foreignkey')
     op.drop_column('teams', 'tournament_id')

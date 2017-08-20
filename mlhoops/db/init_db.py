@@ -14,15 +14,27 @@ from mlhoops.models.game import Game
 Base.metadata.reflect(bind=engine)
 
 
-def drop_db():
-    tables = Base.metadata.tables.copy()
-    tables.pop('alembic_version')
-    Base.metadata.drop_all(tables=list(tables.values()))
+def drop_db(engine):
+    db_str = str(engine.url)
+    db_name = "'" + db_str[db_str.rfind('/') + 1:] + "'"
+    table_exclusion_str = "('alembic_version')"
+    engine.execute("""SET FOREIGN_KEY_CHECKS = 0;
+        SET GROUP_CONCAT_MAX_LEN=32768;
+        SET @tables = NULL;
+        SELECT GROUP_CONCAT('`', table_name, '`') INTO @tables
+          FROM information_schema.tables
+          WHERE table_schema = {} and table_name not in {};
+        SELECT IFNULL(@tables,'dummy') INTO @tables;
+        SET @tables = CONCAT('DROP TABLE IF EXISTS ', @tables);
+        PREPARE stmt FROM @tables;
+        EXECUTE stmt;
+        DEALLOCATE PREPARE stmt;
+        SET FOREIGN_KEY_CHECKS = 1;""".format(db_name, table_exclusion_str))
 
 
 def init_db():
     alembic_cfg = Config('alembic.ini')
-    command.stamp(alembic_cfg, "head")
+    command.upgrade(alembic_cfg, "head")
     Base.metadata.create_all(engine)
 
 
@@ -33,7 +45,7 @@ def init_db_data():
         {'name': 'Oregon State'}
     ]
     game_data = [
-        {'date_played': datetime.utcnow(), 'tournament_game': True,
+        {'date_played': datetime.utcnow(),
          'home_team_score': 100, 'away_team_score': 52,
          'home_team': team_data[0], 'away_team': team_data[1],
          'season': season_data[0]}
@@ -62,7 +74,7 @@ def init_db_data():
                     session().add(player)
                     session().flush()
 
-    # need to commit so we can query team table
+    # need to commit so we can query team and season tables
     session().commit()
 
     for game in game_data:
@@ -70,8 +82,10 @@ def init_db_data():
             filter(Team.name == game['home_team']['name']).first().id
         game['away_team'] = session().query(Team).\
             filter(Team.name == game['away_team']['name']).first().id
-        game['season'] = session().query(Season).\
-            filter(Season.year == game['season']['year']).first().id
+        season = session().query(Season).\
+            filter(Season.year == game['season']['year']).first()
+        game['season'] = season.id
+        game['tournament'] = season.tournament.id
         game = Game(**game)
         session().add(game)
         session().flush()
@@ -80,7 +94,7 @@ def init_db_data():
 
 
 if __name__ == '__main__':
-    drop_db()
+    drop_db(engine)
     init_db()
     init_db_data()
     session().close()
