@@ -1,4 +1,0 @@
-{
-  "mlhoops/tests/test_driver.py::TestBase": true,
-  "mlhoops/tests/test_driver.py::TestDriver": true
-}
