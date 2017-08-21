@@ -10,11 +10,11 @@ class BracketNode():
     """
     def __init__(self, game):
         self.game = game
-        home_team = session().query(Team).get(game.home_team)
-        away_team = session().query(Team).get(game.away_team)
-        self.winner, self.loser = ((home_team, away_team) if
-                                   game.home_team_score > game.away_team_score
-                                   else (away_team, home_team))
+        team_one = session().query(Team).get(game.team_one)
+        team_two = session().query(Team).get(game.team_two)
+        self.winner, self.loser = ((team_one, team_two) if
+                                   game.team_one_score > game.team_two_score
+                                   else (team_two, team_one))
         self.winner_previous_game = None
         self.loser_previous_game = None
 
@@ -34,21 +34,23 @@ class TournamentBracket():
 
     def create_helper(self, cur, games):
         winner_set, loser_set = False, False
-        if games:
-            for i, g in enumerate(games):
-                if winner_set and loser_set:
-                    break
-                elif g.home_team == cur.winner or g.away_team == cur.winner:
-                    del games[i]
-                    g = BracketNode(g)
-                    cur.winner_previous_game = self.create_helper(g, games)
-                    winner_set = True
-                elif g.home_team == cur.loser or g.away_team == cur.loser:
-                    del games[i]
-                    g = BracketNode(g)
-                    cur.loser_previous_game = self.create_helper(g, games)
-                    loser_set = True
-        return cur
+        for i, g in enumerate(games):
+            if winner_set and loser_set:
+                break
+            elif g.team_one == cur.winner or g.team_two == cur.winner:
+                del games[i]
+                g = BracketNode(g)
+                cur.winner_previous_game = self.create_helper(g, games)
+                winner_set = True
+            elif g.team_one == cur.loser or g.team_two == cur.loser:
+                del games[i]
+                g = BracketNode(g)
+                cur.loser_previous_game = self.create_helper(g, games)
+                loser_set = True
+        if not (winner_set and loser_set) and games:
+            raise Exception("Bracket creation failed")
+        else:
+            return cur
 
 
 def get_bracket(tournament_id):
