@@ -24,7 +24,7 @@ class TournamentScraper():
         res = requests.get(self.root_url)
         return BeautifulSoup(res.text, "html.parser")
 
-    def get_tournament_urls(self, num_years=10, years_list=None):
+    def get_tournament_urls(self, num_years=None, years_list=None):
         rows = self.root_source_tree().find('tbody').contents[1::2]
         if years_list:
             urls = []
