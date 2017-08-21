@@ -48,14 +48,13 @@ class TournamentBracket():
                     g = BracketNode(g)
                     cur.loser_previous_game = self.create_helper(g, games)
                     loser_set = True
-        if not (winner_set and loser_set) and games:
-            raise Exception("Bracket creation failed")
-        else:
-            return cur
+        return cur
 
 
-def get_tree(tournament_id):
+def get_bracket(tournament_id):
     tournament = session().query(Tournament).get(tournament_id)
     champion = session().query(Team).get(tournament.champion_id)
-    games = tournament.games.order_by(Game.date_played).all()
+    games = session().query(Game)\
+                     .filter(Game.tournament_id == tournament.id)\
+                     .order_by(Game.date_played).all()
     return TournamentBracket(champion, games)
