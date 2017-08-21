@@ -17,11 +17,12 @@ class TournamentScraper():
     Web scraper for https://www.sports-reference.com/cbb/postseason/
     """
     def __init__(self):
-        self.root_url = 'https://www.sports-reference.com/cbb/postseason'
+        self.root_url = 'https://www.sports-reference.com'
+        self.root_endpoint = '/cbb/postseason'
         self.current_year = datetime.utcnow().year
 
     def root_source_tree(self):
-        res = requests.get(self.root_url)
+        res = requests.get(self.root_url + self.root_endpoint)
         return BeautifulSoup(res.text, "html.parser")
 
     def get_tournament_urls(self, num_years=None, years_list=None):
@@ -42,5 +43,6 @@ class TournamentScraper():
         res = requests.get(self.root_url + url)
         return BeautifulSoup(res.text, "html.parser")
 
-    def get_tournament_bracket():
-        pass
+    def get_tournament_bracket(self, year):
+        url = self.get_tournament_urls(years_list=[year])[0]
+        return self.get_tournament_tree_by_url(url).find(id='brackets').contents
