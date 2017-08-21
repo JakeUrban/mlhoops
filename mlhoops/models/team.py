@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, ForeignKey, String
+from sqlalchemy import Column, Integer, ForeignKey, String, Boolean
 from sqlalchemy.orm import relationship
 
 from mlhoops.db import Base
@@ -15,10 +15,10 @@ class Team(Base):
     season_id = Column(Integer, ForeignKey('seasons.id'), nullable=False)
     stats_file = Column(String(255), nullable=False)
     players = relationship('Player')
-    tournament_id = Column(Integer, ForeignKey('tournaments.id'))
+    made_tournament = Column(Boolean, nullable=False)
 
-    def __init__(self, name, season_id, tournament_id=None):
+    def __init__(self, name, season_id, made_tournament=False):
         self.name = name
         self.season_id = season_id
-        self.tournament_id = tournament_id
+        self.made_tournament = made_tournament
         self.stats_file = get_team_stats_file(self)
