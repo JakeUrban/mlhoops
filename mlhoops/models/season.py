@@ -1,5 +1,4 @@
 from sqlalchemy import Column, Integer
-from sqlalchemy.orm import relationship
 
 from mlhoops.db import Base
 
@@ -11,7 +10,6 @@ class Season(Base):
     __tablename__ = 'seasons'
     id = Column(Integer, primary_key=True)
     year = Column(Integer, nullable=False, unique=True)
-    tournament = relationship("Tournament", uselist=False)
 
     def __init__(self, year):
         self.year = year
