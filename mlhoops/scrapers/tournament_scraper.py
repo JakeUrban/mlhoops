@@ -31,6 +31,8 @@ class TournamentScraper():
             urls = []
             for year in years_list:
                 idx = self.current_year - year
+                print(self.current_year, year)
+                print(len(rows))
                 urls.append(rows[idx].th.a.get('href'))
             return urls
         elif num_years:
