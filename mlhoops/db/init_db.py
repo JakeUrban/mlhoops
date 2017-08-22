@@ -4,11 +4,7 @@ from alembic import command
 from alembic.config import Config
 
 from mlhoops.db import Base, engine, session
-from mlhoops.models.team import Team
-from mlhoops.models.player import Player
-from mlhoops.models.season import Season
-from mlhoops.models.tournament import Tournament
-from mlhoops.models.game import Game
+from mlhoops.models import Team, Player, Season, Tournament, Game
 
 
 Base.metadata.reflect(bind=engine)

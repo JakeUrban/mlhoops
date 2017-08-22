@@ -1,6 +1,4 @@
-from mlhoops.models.tournament import Tournament
-from mlhoops.models.game import Game
-from mlhoops.models.team import Team
+from mlhoops.models import Tournament, Game, Team
 from mlhoops.db import session
 
 
