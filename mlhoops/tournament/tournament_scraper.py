@@ -46,4 +46,5 @@ class TournamentScraper():
     def get_tournament_bracket(self, year):
         url = self.get_tournament_urls(years_list=[year])[0]
         tree = self.get_tournament_tree_by_url(url)
-        return tree.find(id='brackets').contents
+        html_bracket = tree.find(id='brackets').contents
+        return html_bracket

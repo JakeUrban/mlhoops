@@ -46,46 +46,46 @@ def init_db_data():
     ]
     game_data = [
         {'date_played': datetime.utcnow(),
-         'home_team_score': 100, 'away_team_score': 52,
-         'home_team': team_data[0], 'away_team': team_data[1],
+         'team_one_score': 100, 'team_two_score': 52,
+         'team_one': team_data[0], 'team_two': team_data[1],
          'season': season_data[0]}
     ]
     player_data = [
         {'name': 'Jordan Bell', 'team_name': 'Oregon'},
         {'name': 'Ronnie Stacy', 'team_name': 'Oregon State'}
     ]
-    for season in season_data:
-        season = Season(season['year'])
-        session().add(season)
+
+    season = Season(season_data[0]['year'])
+    session().add(season)
+    session().flush()
+
+    for team in team_data:
+        team = Team(team['name'], season.id, made_tournament=True)
+        session().add(team)
         session().flush()
 
-        tournament = Tournament(season.id)
-        session().add(tournament)
-        session().flush()
+        for player in player_data:
+            if player['team_name'] == team.name:
+                player = Player(player['name'], team.id)
+                session().add(player)
+                session().flush()
 
-        for team in team_data:
-            team = Team(team['name'], season.id, tournament.id)
-            session().add(team)
-            session().flush()
-
-            for player in player_data:
-                if player['team_name'] == team.name:
-                    player = Player(player['name'], team.id)
-                    session().add(player)
-                    session().flush()
+    tournament = Tournament(season.id, 1)
+    session().add(tournament)
+    session().flush()
 
     # need to commit so we can query team and season tables
     session().commit()
 
     for game in game_data:
-        game['home_team'] = session().query(Team).\
-            filter(Team.name == game['home_team']['name']).first().id
-        game['away_team'] = session().query(Team).\
-            filter(Team.name == game['away_team']['name']).first().id
+        game['team_one'] = session().query(Team).\
+            filter(Team.name == game['team_one']['name']).first().id
+        game['team_two'] = session().query(Team).\
+            filter(Team.name == game['team_two']['name']).first().id
         season = session().query(Season).\
             filter(Season.year == game['season']['year']).first()
         game['season'] = season.id
-        game['tournament'] = season.tournament.id
+        game['tournament'] = tournament.id
         game = Game(**game)
         session().add(game)
         session().flush()
