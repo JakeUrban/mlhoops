@@ -1,7 +1,7 @@
-import requests
 from datetime import datetime
 
-from bs4 import BeautifulSoup, element
+from bs4 import BeautifulSoup, element  # noqa
+import requests  # noqa
 
 from mlhoops.scrapers.base import Scraper
 
