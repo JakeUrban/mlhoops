@@ -1,5 +1,5 @@
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, element
 
 from datetime import datetime
 
@@ -31,8 +31,6 @@ class TournamentScraper():
             urls = []
             for year in years_list:
                 idx = self.current_year - year
-                print(self.current_year, year)
-                print(len(rows))
                 urls.append(rows[idx].th.a.get('href'))
             return urls
         elif num_years:
@@ -45,8 +43,33 @@ class TournamentScraper():
         res = requests.get(self.root_url + url)
         return BeautifulSoup(res.text, "html.parser")
 
+    def tags_only(self, html_list):
+        tags = []
+        for text in html_list:
+            if isinstance(text, element.Tag):
+                tags.append(text)
+        return tags
+
     def get_tournament_bracket(self, year):
         url = self.get_tournament_urls(years_list=[year])[0]
         tree = self.get_tournament_tree_by_url(url)
-        html_bracket = tree.find(id='brackets').contents
-        return html_bracket
+        html_bracket = tree.find(id='brackets')
+
+        games, teams, final_four = [], {}, []
+        for bracket in ['east', 'south', 'west', 'midwest', 'national']:
+            region_tree = html_bracket.find(id=bracket)
+            for round_ in region_tree.find_all('div', 'round'):
+                for game in self.tags_only(round_.contents):
+                    g = self.tags_only(game.contents)
+                    if len(g) >= 2:
+                        teams[g[0].a.contents[0]] = g[0].a['href']
+                        teams[g[1].a.contents[0]] = g[1].a['href']
+                        game_link = (g[2].a['href'] if len(g) == 3 else "Game \
+                                     link missing")
+                        games.append((g[0].a.contents[0],
+                                      g[1].a.contents[0],
+                                      game_link))
+                    else:
+                        team = self.tags_only(game.contents)[0].a.contents[0]
+                        final_four.append(team)
+        return games, teams, final_four[:-1], final_four[-1]
