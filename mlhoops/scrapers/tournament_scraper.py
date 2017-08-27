@@ -1,32 +1,23 @@
 import requests
-from bs4 import BeautifulSoup, element
-
 from datetime import datetime
 
+from bs4 import BeautifulSoup, element
 
-class InputError(Exception):
-    """
-    Exception class for incorrect input
-    """
-    def __init__(self, message):
-        self.message = message
+from mlhoops.scrapers.base import Scraper
 
 
-class TournamentScraper():
+class TournamentScraper(Scraper):
     """
     Web scraper for https://www.sports-reference.com/cbb/postseason/
     """
     def __init__(self):
-        self.root_url = 'https://www.sports-reference.com'
-        self.root_endpoint = '/cbb/postseason'
+        super(TournamentScraper, self).__init__(
+            'https://www.sports-reference.com',
+            '/cbb/postseason')
         self.current_year = datetime.utcnow().year
 
-    def root_source_tree(self):
-        res = requests.get(self.root_url + self.root_endpoint)
-        return BeautifulSoup(res.text, "html.parser")
-
     def get_tournament_urls(self, num_years=None, years_list=None):
-        rows = self.root_source_tree().find('tbody').contents[1::2]
+        rows = self.get_tree_by_url().find('tbody').contents[1::2]
         if years_list:
             urls = []
             for year in years_list:
@@ -36,23 +27,12 @@ class TournamentScraper():
         elif num_years:
             return [row.th.a.get('href') for row in rows[:num_years]]
         else:
-            raise InputError("Method takes either num_years or year_list \
-                              argument")
+            raise Exception("Method takes either num_years or year_list \
+                             argument")
 
-    def get_tournament_tree_by_url(self, url):
-        res = requests.get(self.root_url + url)
-        return BeautifulSoup(res.text, "html.parser")
-
-    def tags_only(self, html_list):
-        tags = []
-        for text in html_list:
-            if isinstance(text, element.Tag):
-                tags.append(text)
-        return tags
-
-    def get_tournament_bracket(self, year):
+    def get_tournament_info(self, year):
         url = self.get_tournament_urls(years_list=[year])[0]
-        tree = self.get_tournament_tree_by_url(url)
+        tree = self.get_tree_by_url(url)
         html_bracket = tree.find(id='brackets')
 
         games, teams, final_four = [], {}, []
@@ -72,4 +52,5 @@ class TournamentScraper():
                     else:
                         team = self.tags_only(game.contents)[0].a.contents[0]
                         final_four.append(team)
+
         return games, teams, final_four[:-1], final_four[-1]
