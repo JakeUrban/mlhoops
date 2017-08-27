@@ -30,6 +30,19 @@ class TournamentScraper(Scraper):
             raise Exception("Method takes either num_years or year_list \
                              argument")
 
+    def add_game(self, g, games, teams, bracket):
+        if g[0].a.contents[0] not in teams:
+            seed = (g[0].span.contents[0] if len(g[0].span.contents) > 0
+                    else "Seed number missing")
+            teams[g[0].a.contents[0]] = (g[0].a['href'], seed, bracket)
+        if g[1].a.contents[0] not in teams:
+            seed = (g[1].span.contents[0] if len(g[1].span.contents) > 0
+                    else "Seed number missing")
+            teams[g[1].a.contents[0]] = (g[1].a['href'], seed, bracket)
+        game_link = g[2].a['href'] if len(g) == 3 else "Game link missing"
+        games.append((g[0].a.contents[0], g[1].a.contents[0], game_link))
+
+
     def get_tournament_info(self, year):
         url = self.get_tournament_urls(years_list=[year])[0]
         tree = self.get_tree_by_url(url)
@@ -42,15 +55,8 @@ class TournamentScraper(Scraper):
                 for game in self.tags_only(round_.contents):
                     g = self.tags_only(game.contents)
                     if len(g) >= 2:
-                        teams[g[0].a.contents[0]] = g[0].a['href']
-                        teams[g[1].a.contents[0]] = g[1].a['href']
-                        game_link = (g[2].a['href'] if len(g) == 3 else "Game \
-                                     link missing")
-                        games.append((g[0].a.contents[0],
-                                      g[1].a.contents[0],
-                                      game_link))
+                        self.add_game(g, games, teams, bracket)
                     else:
-                        team = self.tags_only(game.contents)[0].a.contents[0]
-                        final_four.append(team)
+                        final_four.append(g[0].a.contents[0])
 
         return games, teams, final_four[:-1], final_four[-1]
