@@ -42,7 +42,6 @@ class TournamentScraper(Scraper):
         game_link = g[2].a['href'] if len(g) == 3 else "Game link missing"
         games.append((g[0].a.contents[0], g[1].a.contents[0], game_link))
 
-
     def get_tournament_info(self, year):
         url = self.get_tournament_urls(years_list=[year])[0]
         tree = self.get_tree_by_url(url)
