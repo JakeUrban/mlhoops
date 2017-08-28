@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, ForeignKey, DateTime, String
 
 from mlhoops.db import Base
-from mlhoops.game.util import get_game_stats_file
+from mlhoops.util.game_util import get_game_stats_file
 
 
 class Game(Base):
