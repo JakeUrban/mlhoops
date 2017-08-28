@@ -23,3 +23,6 @@ style: venv
 
 test: venv
 	@. $(ACTIVATE); py.test $(TEST_OPTS) mlhoops/
+
+clean:
+	git clean -fdx --exclude=".*"
