@@ -1,5 +1,4 @@
 from datetime import datetime
-from csv import writer
 
 from mlhoops.scrapers.base import ScraperBase
 from mlhoops.util.game_util import get_game_stats_file
