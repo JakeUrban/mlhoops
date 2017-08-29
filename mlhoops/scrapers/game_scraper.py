@@ -1,7 +1,6 @@
 from datetime import datetime
 
 from mlhoops.scrapers.base import ScraperBase
-from mlhoops.util.game_util import get_game_stats_file
 
 
 class GameScraper(ScraperBase):
@@ -38,8 +37,8 @@ class GameScraper(ScraperBase):
             headers = [header['aria-label'] for header in h_row.contents[1::2]]
             tables.append([headers])
             for tr in t.tbody.contents[1::2]:
-                if ((tr.get('class') and tr['class'] == 'thead') or
-                    tr.th.get('aria-label')):
+                if tr.th.get('aria-label') or (tr.get('class') and
+                                               tr['class'] == 'thead'):
                     continue
                 players[tr.th.a.contents[0]] = {'endpoint': tr.th.a['href']}
                 row = []
