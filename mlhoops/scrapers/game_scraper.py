@@ -1,6 +1,8 @@
 from datetime import datetime
+from csv import writer
 
 from mlhoops.scrapers.base import ScraperBase
+from mlhoops.util.game_util import get_game_stats_file
 
 
 class GameScraper(ScraperBase):
@@ -29,4 +31,20 @@ class GameScraper(ScraperBase):
         return g
 
     def get_game_stats(self, endpoint):
-        pass
+        html = self.get_html_by_url(endpoint)
+        tables_html = html.find(id='boxes').find_all('table', 'stats_table')
+        tables, players = [], {}
+        for idx, t in enumerate(tables_html):
+            h_row = t.thead.tr.next_sibling.next_sibling
+            headers = [header['aria-label'] for header in h_row.contents[1::2]]
+            tables.append([headers])
+            for tr in t.tbody.contents[1::2]:
+                if ((tr.get('class') and tr['class'] == 'thead') or
+                    tr.th.get('aria-label')):
+                    continue
+                players[tr.th.a.contents[0]] = {'endpoint': tr.th.a['href']}
+                row = []
+                for td in tr.contents[1:]:
+                    row.append(td.contents[0] if td.contents else None)
+                tables[idx].append(row)
+        return tables, players
