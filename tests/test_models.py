@@ -7,9 +7,9 @@ from mlhoops.models import Season, Game, Tournament, Player, Team
 empty_mock = MagicMock(return_value='')
 
 
-@patch('mlhoops.models.team.get_team_stats_file', new=empty_mock)
-@patch('mlhoops.models.game.get_game_stats_file', new=empty_mock)
-@patch('mlhoops.models.player.get_player_stats_file', new=empty_mock)
+@patch('mlhoops.models.team.team_stats_path', new=empty_mock)
+@patch('mlhoops.models.game.game_stats_path', new=empty_mock)
+@patch('mlhoops.models.player.player_stats_path', new=empty_mock)
 def test_models(session):
     num = 1
     season = Season(num)
@@ -32,7 +32,7 @@ def test_models(session):
     assert tournament.id is not None
 
     game = Game(team_one.id, team_two.id, season.id, datetime.utcnow(),
-                tournament=tournament.id)
+                tournament_id=tournament.id)
     session().add(game)
     session().commit()
     assert game.id is not None
@@ -43,7 +43,7 @@ def test_models(session):
     assert player.id is not None
 
 
-@patch('mlhoops.models.team.get_team_stats_file', new=empty_mock)
+@patch('mlhoops.models.team.team_stats_path', new=empty_mock)
 def test_tournament_team(session):
     with pytest.raises(Exception):
         team = Team('team_one', 1, made_tournament=True)

@@ -1,2 +1,6 @@
-def get_team_stats_file(team):
-    return '_'.join([team.name.replace(' ', '-').lower(), str(team.season_id)])
+from mlhoops import config
+
+
+def team_stats_path(team):
+    dirname = '_'.join([team.name.replace(' ', '-').lower(), str(team.season_id)])
+    return config.PROJECT_ROOT + '/data/' + dirname

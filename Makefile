@@ -1,7 +1,7 @@
 ACTIVATE := .venv/bin/activate
 
 TEST_OPTS := --cov=mlhoops --cov-fail-under=100 \
-	--cov-report term-missing
+			 --cov-report term-missing:skip-covered
 
 venv: $(ACTIVATE)
 $(ACTIVATE): requirements.txt setup.py

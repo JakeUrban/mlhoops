@@ -79,7 +79,7 @@ def init_db_data(engine):
         season = session().query(Season).\
             filter(Season.year == game['season']['year']).first()
         game['season'] = season.id
-        game['tournament'] = tournament.id
+        game['tournament_id'] = tournament.id
         game = Game(**game)
         session().add(game)
         session().flush()

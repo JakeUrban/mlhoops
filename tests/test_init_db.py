@@ -6,9 +6,9 @@ from mlhoops.models import Team, Tournament, Game, Player, Season
 empty_mock = MagicMock(return_value='')
 
 
-@patch('mlhoops.models.team.get_team_stats_file', new=empty_mock)
-@patch('mlhoops.models.game.get_game_stats_file', new=empty_mock)
-@patch('mlhoops.models.player.get_player_stats_file', new=empty_mock)
+@patch('mlhoops.models.team.team_stats_path', new=empty_mock)
+@patch('mlhoops.models.game.game_stats_path', new=empty_mock)
+@patch('mlhoops.models.player.player_stats_path', new=empty_mock)
 @patch('mlhoops.db.init_db.session')
 def test_init_db_data(patch_session, test_engine, session):
     patch_session.return_value = session()
