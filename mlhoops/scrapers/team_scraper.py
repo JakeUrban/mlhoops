@@ -43,4 +43,4 @@ class TeamScraper(ScraperBase):
                     data = td.contents[0] if td.contents else None
                     player_row.append(data)
             players[player_name] = player_row
-        return players
+        return per_game_headers, players

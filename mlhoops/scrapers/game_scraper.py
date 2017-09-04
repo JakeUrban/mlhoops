@@ -39,7 +39,7 @@ class GameScraper(ScraperBase):
             for tr in t.tbody.contents[1::2]:
                 if tr.th.get('aria-label') or (tr.get('class') and
                                                tr['class'] == 'thead'):
-                    continue
+                    continue  # pragma: no cover
                 row = []
                 for td in tr.contents[1:]:
                     row.append(td.contents[0] if td.contents else None)
