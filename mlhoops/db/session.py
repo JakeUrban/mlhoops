@@ -3,9 +3,11 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from os import environ
 
+from mlhoops import config
+
 engine = create_engine(environ.get(
     'SQLALCHEMY_DATABASE_URI',
-    'mysql+pymysql://Jake@localhost/mlhoops')
+    config.SQLALCHEMY_DATABASE_URI)
 )
 
 Base = declarative_base(bind=engine)
