@@ -1,7 +1,7 @@
 ACTIVATE := .venv/bin/activate
 
 TEST_OPTS := --cov=mlhoops --cov-fail-under=100 \
-	--cov-report term-missing:skip-covered
+	--cov-report term-missing
 
 venv: $(ACTIVATE)
 $(ACTIVATE): requirements.txt setup.py
@@ -21,7 +21,7 @@ style: venv
 	@. $(ACTIVATE); flake8 --exclude=.venv,migrations .
 
 test: venv
-	@. $(ACTIVATE); py.test $(TEST_OPTS) mlhoops/
+	@. $(ACTIVATE); PYTHONPATH=. py.test -v $(TEST_OPTS)
 
 clean:
 	git clean -fdx --exclude=".*"

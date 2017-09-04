@@ -3,14 +3,11 @@ from datetime import datetime
 from alembic import command
 from alembic.config import Config
 
-from mlhoops.db import Base, engine, session
+from mlhoops.db import Base, session
 from mlhoops.models import Team, Player, Season, Tournament, Game
 
 
-Base.metadata.reflect(bind=engine)
-
-
-def drop_db(engine):
+def drop_db(engine):  # pragma: no cover
     db_str = str(engine.url)
     db_name = "'" + db_str[db_str.rfind('/') + 1:] + "'"
     table_exclusion_str = "('alembic_version')"
@@ -28,13 +25,13 @@ def drop_db(engine):
         SET FOREIGN_KEY_CHECKS = 1;""".format(db_name, table_exclusion_str))
 
 
-def init_db():
+def init_db(engine):
     alembic_cfg = Config('alembic.ini')
     command.upgrade(alembic_cfg, "head")
     Base.metadata.create_all(engine)
 
 
-def init_db_data():
+def init_db_data(engine):
     season_data = [{'year': 2016}]
     team_data = [
         {'name': 'Oregon'},
@@ -55,8 +52,9 @@ def init_db_data():
     session().add(season)
     session().flush()
 
-    for team in team_data:
-        team = Team(team['name'], season.id, made_tournament=True)
+    for idx, team in enumerate(team_data):
+        team = Team(team['name'], season.id, made_tournament=True,
+                    bracket='midwest', seed=idx+1)
         session().add(team)
         session().flush()
 
@@ -90,6 +88,8 @@ def init_db_data():
 
 
 if __name__ == '__main__':
+    from mlhoops.db import engine
+    Base.metadata.reflect(bind=engine)
     drop_db(engine)
     init_db()
     init_db_data()
