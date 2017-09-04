@@ -1,9 +1,9 @@
 from mock import MagicMock
 
-from mlhoops.util.game_util import game_stats_path
-from mlhoops.util.player_util import player_stats_path
+from mlhoops.util.game import game_stats_path
+from mlhoops.util.player import player_stats_path
 from mlhoops import config
-from mlhoops.util.team_util import team_stats_path
+from mlhoops.util.team import team_stats_path
 
 
 def test_team_stats_paths():

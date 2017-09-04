@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, ForeignKey, String, Boolean
 
 from mlhoops.db import Base
-from mlhoops.util.team_util import team_stats_path
+from mlhoops.util.team import team_stats_path
 
 
 class Team(Base):
