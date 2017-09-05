@@ -47,14 +47,20 @@ class TournamentScraper(ScraperBase):
         html = self.get_html_by_url(url)
         html_bracket = html.find(id='brackets')
 
+        brackets = []
+        for bracket in self.tags_only(html_bracket):
+            brackets.append(bracket['id'])
+
         games, teams, final_four = [], {}, []
-        for bracket in ['east', 'south', 'west', 'midwest', 'national']:
+        for bracket in brackets:
             region_tree = html_bracket.find(id=bracket)
             for round_ in region_tree.find_all('div', 'round'):
                 for game in self.tags_only(round_.contents):
                     g = self.tags_only(game.contents)
-                    if len(g) >= 2:
+                    if len(g) >= 2 and g[0].a and g[1].a:
                         self.add_game(g, games, teams, bracket)
+                    elif len(g) >= 2 and not (g[0].a and g[1].a):
+                        continue
                     else:
                         final_four.append(g[0].a.contents[0])
 
