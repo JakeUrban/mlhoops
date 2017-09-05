@@ -60,7 +60,7 @@ class TournamentScraper(ScraperBase):
                     if len(g) >= 2 and g[0].a and g[1].a:
                         self.add_game(g, games, teams, bracket)
                     elif len(g) >= 2 and not (g[0].a and g[1].a):
-                        continue
+                        continue  # pragma: no cover
                     else:
                         final_four.append(g[0].a.contents[0])
 
