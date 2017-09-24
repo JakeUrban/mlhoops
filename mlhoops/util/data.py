@@ -1,5 +1,9 @@
+import csv
 from mlhoops.scrapers import TournamentScraper, GameScraper, TeamScraper
 from mlhoops.models import Season, Tournament, Game, Team, Player
+from mlhoops.models.util.game import game_stats_path
+from mlhoops.models.util.team import team_stats_path
+from mlhoops.models.util.player import player_stats_path
 from mlhoops.db import session
 
 
@@ -21,6 +25,7 @@ def get_and_insert_data(year):
     for team in teams.items():
         print(team)
         wins, losses, stats_table = team_s.get_team_info(team[1][0])
+        print(stats_table)
 
         t = Team(team[0], season.id, made_tournament=True, bracket=team[1][2],
                  seed=team[1][1], wins=wins, losses=losses)
@@ -33,8 +38,9 @@ def get_and_insert_data(year):
             session().flush()
 
         player_info = team_s.get_player_info(team[1][0])
+        print(player_info[0])
         for player in player_info[1].items():
-            print(player[0])
+            print(player)
             session().add(Player(player[0], t.id))
             session().flush()
 
@@ -45,4 +51,5 @@ def get_and_insert_data(year):
                            team_two_score=g[3], tournament_id=tournament.id))
         session().flush()
 
-        g_stats =  gs.get_game_stats(games[idx][-1])
+        g_stats = gs.get_game_stats(games[idx][-1])
+        print(g_stats)
