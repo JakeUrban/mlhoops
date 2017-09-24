@@ -1,9 +1,7 @@
 import csv
 from mlhoops.scrapers import TournamentScraper, GameScraper, TeamScraper
 from mlhoops.models import Season, Tournament, Game, Team, Player
-from mlhoops.models.util.game import game_stats_path
-from mlhoops.models.util.team import team_stats_path
-from mlhoops.models.util.player import player_stats_path
+from mlhoops.models.util import game_stats_path, team_stats_path, player_stats_path
 from mlhoops.db import session
 
 

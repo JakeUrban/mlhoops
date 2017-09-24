@@ -1,8 +1,8 @@
 from mock import MagicMock
 
-from mlhoops.models.util.game import game_stats_path
-from mlhoops.models.util.player import player_stats_path
-from mlhoops.models.util.team import team_stats_path
+from mlhoops.models.util import game_stats_path
+from mlhoops.models.util import player_stats_path
+from mlhoops.models.util import team_stats_path
 from mlhoops import config
 
 
