@@ -19,7 +19,7 @@ class TeamScraper(ScraperBase):
         for th in self.tags_only(team_opp_html.tr.contents)[3:]:
             team_opp_headers.append(th['aria-label'])
         team_opp = [team_opp_headers]
-        for idx, tr in enumerate(self.tags_only(team_opp_html.tbody.contents)[::2]):
+        for idx, tr in enumerate(self.tags_only(team_opp_html.tbody.contents)[::2]):  # noqa
             team_opp_row = []
             for td in self.tags_only(tr)[3:]:
                 data = td.contents[0] if td.contents else None
