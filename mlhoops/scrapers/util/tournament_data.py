@@ -1,8 +1,6 @@
 import csv
 from mlhoops.scrapers import TournamentScraper, GameScraper, TeamScraper
 from mlhoops.models import Season, Tournament, Game, Team, Player
-from mlhoops.models.util import (game_stats_path, team_stats_path,
-                                 player_stats_path)
 from mlhoops.db import session
 
 
@@ -30,6 +28,8 @@ def get_and_insert_data(year):
                  seed=team[1][1], wins=wins, losses=losses)
         session().add(t)
         session().flush()
+        with open(t.stats_path, 'w') as f:
+            csv.writer(f).writerows(stats_table)
 
         if t.name == champion:
             print("Champion: " + str(champion))
@@ -40,15 +40,21 @@ def get_and_insert_data(year):
         print("Player Info: " + str(player_info[0]))
         for player in player_info[1].items():
             print("Player: " + str(player))
-            session().add(Player(player[0], t.id))
+            p = Player(player[0], t.id)
+            session().add(p)
             session().flush()
+            with open(p.stats_path, 'w') as f:
+                csv.writer(f).writerows([player_info, player[1]])
 
     for idx in range(len(games)):
         g = gs.get_game_info(games[idx][-1], games[idx][:-1])
         print("Game: " + str(g))
-        session().add(Game(g[0], g[1], season.id, g[4], team_one_score=g[2],
-                           team_two_score=g[3], tournament_id=tournament.id))
+        game = Game(g[0], g[1], season.id, g[4], team_one_score=g[2],
+                    team_two_score=g[3], tournament_id=tournament.id)
+        session().add(game)
         session().flush()
 
         g_stats = gs.get_game_stats(games[idx][-1])
+        with open(game.stats_path, 'w') as f:
+            csv.writer(f).writerows(g_stats)
         print("Game Stats: " + str(g_stats))

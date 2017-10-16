@@ -14,4 +14,6 @@ Base = declarative_base(bind=engine)
 
 
 def get_db():
-    return sessionmaker(bind=engine)()
+    if not hasattr(config, 'session'):
+        config.session = sessionmaker(bind=engine)()
+    return config.session
