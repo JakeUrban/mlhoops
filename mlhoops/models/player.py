@@ -10,7 +10,7 @@ class Player(Base):
     """
     __tablename__ = 'players'
     id = Column(Integer, primary_key=True)
-    name = Column(String(255), unique=True, nullable=False)
+    name = Column(String(255), nullable=False)
     team_id = Column(Integer, ForeignKey('teams.id'), nullable=False)
     stats_path = Column(String(255), nullable=False)
 
@@ -18,3 +18,6 @@ class Player(Base):
         self.name = name
         self.team_id = team_id
         self.stats_path = player_stats_path(self)
+
+    def __repr__(self):
+        return str(self.__dict__)

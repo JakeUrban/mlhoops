@@ -29,3 +29,6 @@ class Game(Base):
         self.team_two_score = team_two_score
         self.tournament_id = tournament_id
         self.stats_path = game_stats_path(self)
+
+    def __repr__(self):
+        return str(self.__dict__)

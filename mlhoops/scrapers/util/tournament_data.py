@@ -16,8 +16,6 @@ def get_and_insert_data(year):
     session().flush()
 
     tournament = Tournament(season.id)
-    session().add(tournament)
-    session().flush()
 
     for team in teams.items():
         print("Team: " + str(team))
@@ -34,6 +32,7 @@ def get_and_insert_data(year):
         if t.name == champion:
             print("Champion: " + str(champion))
             tournament.champion_id = t.id
+            session().add(tournament)
             session().flush()
 
         player_info = team_s.get_player_info(team[1][0])
@@ -44,17 +43,23 @@ def get_and_insert_data(year):
             session().add(p)
             session().flush()
             with open(p.stats_path, 'w') as f:
-                csv.writer(f).writerows([player_info, player[1]])
+                csv.writer(f).writerow(player[1])
 
     for idx in range(len(games)):
         g = gs.get_game_info(games[idx][-1], games[idx][:-1])
         print("Game: " + str(g))
-        game = Game(g[0], g[1], season.id, g[4], team_one_score=g[2],
+        team_one = session().query(Team).filter(Team.name == g[0]).first().id
+        team_two = session().query(Team).filter(Team.name == g[1]).first().id
+        game = Game(team_one=team_one, team_two=team_two, season=season.id,
+                    date_played=g[4], team_one_score=g[2],
                     team_two_score=g[3], tournament_id=tournament.id)
         session().add(game)
         session().flush()
 
         g_stats = gs.get_game_stats(games[idx][-1])
         with open(game.stats_path, 'w') as f:
-            csv.writer(f).writerows(g_stats)
+            csv.writer(f).writerows(g_stats[0])
+            csv.writer(f).writerows(g_stats[1])
         print("Game Stats: " + str(g_stats))
+
+    session().commit()

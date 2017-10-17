@@ -13,3 +13,6 @@ class Season(Base):
 
     def __init__(self, year):
         self.year = year
+
+    def __repr__(self):
+        return str(self.__dict__)

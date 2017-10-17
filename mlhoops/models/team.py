@@ -10,7 +10,7 @@ class Team(Base):
     """
     __tablename__ = 'teams'
     id = Column(Integer, primary_key=True)
-    name = Column(String(255), unique=True, nullable=False)
+    name = Column(String(255), nullable=False)
     season_id = Column(Integer, ForeignKey('seasons.id'), nullable=False)
     wins = Column(Integer, nullable=False)
     losses = Column(Integer, nullable=False)
@@ -32,3 +32,6 @@ class Team(Base):
         if made_tournament and not (bracket or seed):
             exp_str = "Must specify bracket and seed with made_tournament"
             raise Exception(exp_str)
+
+    def __repr__(self):
+        return str(self.__dict__)
