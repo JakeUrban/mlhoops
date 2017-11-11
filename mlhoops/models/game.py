@@ -18,6 +18,16 @@ class Game(Base):
     tournament_id = Column(Integer, ForeignKey('tournaments.id'))
     date_played = Column(DateTime, nullable=False)
     stats_path = Column(String(255), nullable=False)
+    features = ['Minutes Played', 'Field Goals', 'Field Goal Attempts',
+                'Field Goal Percentage', '2-Point Field Goals',
+                '2-Point Field Goal Attempts',
+                '2-Point Field Goal Percentage', '3-Point Field Goals',
+                '3-Point Field Goal Attempts',
+                '3-Point Field Goal Percentage', 'Free Throws',
+                'Free Throw Attempts', 'Free Throw Percentage',
+                'Offensive Rebounds', 'Defensive Rebounds', 'Total Rebounds',
+                'Assists', 'Steals', 'Blocks', 'Turnovers', 'Personal Fouls',
+                'Points']
 
     def __init__(self, team_one, team_two, season, date_played,
                  team_one_score=0, team_two_score=0, tournament_id=None):

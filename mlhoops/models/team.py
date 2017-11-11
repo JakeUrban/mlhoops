@@ -18,6 +18,16 @@ class Team(Base):
     made_tournament = Column(Boolean, nullable=False)
     bracket = Column(String(255))
     seed = Column(Integer)
+    features = ['Field Goals', 'Field Goal Attempts',
+                'Field Goal Percentage', '2-Point Field Goals',
+                '2-Point Field Goal Attempts',
+                '2-Point Field Goal Percentage', '3-Point Field Goals',
+                '3-Point Field Goal Attempts',
+                '3-Point Field Goal Percentage', 'Free Throws',
+                'Free Throw Attempts', 'Free Throw Percentage',
+                'Offensive Rebounds', 'Defensive Rebounds',
+                'Total Rebounds', 'Assists', 'Steals', 'Blocks',
+                'Turnovers', 'Personal Fouls', 'Points', 'Points Per Game']
 
     def __init__(self, name, season_id, made_tournament=False, bracket=None,
                  seed=None, wins=0, losses=0):

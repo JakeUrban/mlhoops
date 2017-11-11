@@ -13,6 +13,19 @@ class Player(Base):
     name = Column(String(255), nullable=False)
     team_id = Column(Integer, ForeignKey('teams.id'), nullable=False)
     stats_path = Column(String(255), nullable=False)
+    features = ['Games', 'Games Started', 'Minutes Played Per Game',
+                'Field Goals Per Game', 'Field Goal Attempts Per Game',
+                'Field Goal Percentage', '2-Point Field Goals Per Game',
+                '2-Point Field Goal Attempts Per Game',
+                '2-Point Field Goal Percentage',
+                '3-Point Field Goals Per Game',
+                '3-Point Field Goal Attempts Per Game',
+                '3-Point Field Goal Percentage', 'Free Throws Per Game',
+                'Free Throw Attempts Per Game', 'Free Throw Percentage',
+                'Offensive Rebounds Per Game', 'Defensive Rebounds Per Game',
+                'Total Rebounds Per Game', 'Assists Per Game',
+                'Steals Per Game', 'Blocks Per Game', 'Turnovers Per Game',
+                'Personal Fouls Per Game', 'Points Per Game']
 
     def __init__(self, name, team_id):
         self.name = name
