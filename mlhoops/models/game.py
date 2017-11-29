@@ -42,3 +42,16 @@ class Game(Base):
 
     def __repr__(self):
         return str(self.__dict__)
+
+    def get_data(self):
+        with open(self.stats_path, 'r') as f:
+            h_line = f.readline()
+            team_one, team_two = [], []
+            cur_team = team_one
+            for line in f:
+                if line == h_line:
+                    cur_team = team_two
+                    continue
+                for x in line.split(','):
+                    cur_team.append(float(x)) if x else cur_team.append(None)
+            return [self.features, team_one, team_two]

@@ -34,3 +34,9 @@ class Player(Base):
 
     def __repr__(self):
         return str(self.__dict__)
+
+    def get_data(self):
+        line = open(self.stats_path, 'r').readline().split(',')
+        for i, x in enumerate(line):
+            line[i] = float(line[i]) if x else None
+        return [self.features, line]
