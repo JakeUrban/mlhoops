@@ -4,6 +4,7 @@ bleach==1.5.0
 certifi==2017.7.27.1
 chardet==3.0.4
 coverage==4.4.1
+enum34==1.1.6
 flake8==3.4.1
 html5lib==0.9999999
 idna==2.6
@@ -11,6 +12,7 @@ Mako==1.0.7
 Markdown==2.6.9
 MarkupSafe==1.0
 mccabe==0.6.1
+-e git+https://github.com/JakeUrban/mlhoops.git@ccb9af5ee6e683c5ccbd7a767f33f0ede9bbefef#egg=mlhoops
 mock==2.0.0
 numpy==1.13.3
 pbr==3.1.1
@@ -27,8 +29,8 @@ python-editor==1.0.3
 requests==2.18.4
 six==1.10.0
 SQLAlchemy==1.1.13
-tensorflow==1.3.0
-tensorflow-tensorboard==0.1.8
+tensorflow==1.4.0
+tensorflow-tensorboard==0.4.0rc3
 urllib3==1.22
 virtualenv==15.1.0
 Werkzeug==0.12.2
