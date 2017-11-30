@@ -10,7 +10,7 @@ class ScheduleScraper(ScraperBase):
             'https://www.sports-reference.com')
         self.root_endpoint = '/cbb/seasons/{}-school-stats.html'
 
-    def get_schedule(self, team_endpoint):
+    def get_schedule(self, team_endpoint, only_season=False):
         """
         Given endpoint for team schedule, return the links to the games
         played in chronological order.
@@ -21,8 +21,10 @@ class ScheduleScraper(ScraperBase):
         games = []
         for row in self.tags_only(html.find(id='schedule').tbody.contents):
             if hasattr(row.td, 'a'):
-                print(row.td.a['href'])
-                games.append(row.td.a['href'])
+                if not only_season:
+                    games.append(row.td.a['href'])
+                elif only_season and self.tags_only(row.contents)[4].get_text() != 'NCAA':
+                    games.append(row.td.a['href'])
         return games
 
     def get_team_urls(self, year):
