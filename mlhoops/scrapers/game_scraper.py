@@ -12,7 +12,7 @@ class GameScraper(ScraperBase):
             'https://www.sports-reference.com')
         self.game_endpoints = game_endpoints
 
-    def get_game_info(self, endpoint, game=None):
+    def get_game_info(self, endpoint, game=None, team_urls=False):
         g = game if isinstance(game, list) else []
         html = self.get_html_by_url(endpoint)
         sb = html.find('div', 'scorebox')
@@ -20,6 +20,10 @@ class GameScraper(ScraperBase):
             t1_name = sb.div.div.strong.a.contents[0]
             t2_name = sb.div.next_sibling.next_sibling.div.strong.a.contents[0]
             g.extend((t1_name, t2_name))
+        if team_urls:
+            t1_url = sb.div.div.strong.a['href']
+            t2_url = sb.div.next_sibling.next_sibling.div.strong.a['href']
+            g.extend((t1_url, t2_url))
         score = sb.find_all('div', 'score')
         t1_score = score[0].contents[0]
         t2_score = score[1].contents[0]

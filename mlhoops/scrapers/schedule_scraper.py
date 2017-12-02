@@ -20,17 +20,17 @@ class ScheduleScraper(ScraperBase):
         html = self.get_html_by_url(team_endpoint[:-5] + '-schedule.html')
         games = []
         for row in self.tags_only(html.find(id='schedule').tbody.contents):
-            if hasattr(row.td, 'a'):
+            tags = self.tags_only(row.contents)
+            if hasattr(row.td, 'a') and tags[6].a:
                 if not only_season:
                     games.append(row.td.a['href'])
-                elif only_season and self.tags_only(row.contents)[4].get_text() != 'NCAA':
+                elif only_season and tags[4].get_text() != 'NCAA':
                     games.append(row.td.a['href'])
         return games
 
     def get_team_urls(self, year):
         """
-        Given a year, return links to all teams who participated in that
-        season.
+        Given a year, return links and names to all teams who participated in that
         """
         html = self.get_html_by_url(self.root_endpoint.format(year))
         table = html.find(id='basic_school_stats')
@@ -39,11 +39,3 @@ class ScheduleScraper(ScraperBase):
             if not row.get('class'):
                 urls.append(row.td.a['href'])
         return urls
-
-    def get_all_schedules(self, year):
-        urls = self.get_team_urls(year)
-        schedules = {}
-        for url in urls:
-            print(url)
-            schedules[url] = self.get_schedule(url)
-        return schedules

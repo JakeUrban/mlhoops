@@ -13,7 +13,10 @@ class ScraperBase():
     def get_html_by_url(self, url=None):
         if not url:
             url = self.root_endpoint if hasattr(self, 'root_endpoint') else ''
-        res = requests.get(self.root_url + url)
+        try:
+            res = requests.get(self.root_url + url)
+        except:
+            res = requests.get(self.root_url + url)
         return BeautifulSoup(res.text, "html.parser")
 
     def tags_only(self, html):
