@@ -45,7 +45,9 @@ class GameScraper(ScraperBase):
                                                tr['class'] == 'thead'):
                     continue  # pragma: no cover
                 row = []
-                for td in tr.contents[1:]:
+                for td in tr.contents:
+                    if td.contents and hasattr(td.contents[0], 'href'):
+                        td = td.contents[0]
                     row.append(td.contents[0] if td.contents else None)
                 tables[idx].append(row)
         return tables

@@ -12,9 +12,10 @@ Mako==1.0.7
 Markdown==2.6.9
 MarkupSafe==1.0
 mccabe==0.6.1
--e git+https://github.com/JakeUrban/mlhoops.git@ccb9af5ee6e683c5ccbd7a767f33f0ede9bbefef#egg=mlhoops
+-e git+https://github.com/JakeUrban/mlhoops.git@bb9e51d01ee45ca13c34e0d530eea75cc5975d18#egg=mlhoops
 mock==2.0.0
 numpy==1.13.3
+pandas==0.22.0
 pbr==3.1.1
 pipdeptree==0.10.1
 protobuf==3.4.0
@@ -26,6 +27,7 @@ pytest==3.2.1
 pytest-cov==2.5.1
 python-dateutil==2.6.1
 python-editor==1.0.3
+pytz==2018.3
 requests==2.18.4
 six==1.10.0
 SQLAlchemy==1.1.13

@@ -47,10 +47,12 @@ class Team(Base):
         return str(self.__dict__)
 
     def get_data(self):
-        data = [self.features, []]
+        data = [self.features, [], []]
         with open(self.stats_path, 'r') as f:
             f.readline()
             for x in f.readline().split(','):
                 data[1].append(float(x) if x else None)
+            for x in f.readline().split(','):
+                data[2].append(float(x) if x else None)
             return data
 
