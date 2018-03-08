@@ -1,4 +1,4 @@
-# mlhoops
+# Mlhoops
 Data collection and analysis application for NCAA basketball game predictions. Mlhoops is primarily a web scraping system currently, and has been used to collect data from each player, team, and game for all seasons since 1993. This package will ultimately be a showcase for my skills in data science and engineering.
 
 
