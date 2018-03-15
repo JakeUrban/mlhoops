@@ -32,8 +32,17 @@ class Player(Base):
         self.team_id = team_id
         self.stats_path = player_stats_path(self)
 
+    def dataframe(self):
+        d = self.get_data()
+        return pd.DataFrame(d[1], columns=d[0])
+
+    def to_dict(self):
+        d = self.__dict__.copy()
+        d.pop('_sa_instance_state')
+        return d
+
     def __repr__(self):
-        return str(self.__dict__)
+        return str(self.to_dict())
 
     def get_data(self):
         line = open(self.stats_path, 'r').readline().strip('\n').split(',')

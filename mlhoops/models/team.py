@@ -1,7 +1,9 @@
-from sqlalchemy import Column, Integer, ForeignKey, String, Boolean
+from sqlalchemy import Column, Integer, ForeignKey, String, Boolean, or_
 
 from mlhoops.db import Base
 from mlhoops.models.util import team_stats_path
+
+import pandas as pd
 
 
 class Team(Base):
@@ -44,7 +46,19 @@ class Team(Base):
             raise Exception(exp_str)
 
     def __repr__(self):
-        return str(self.__dict__)
+        return str(self.to_dict())
+
+    def dataframe(self):
+        """
+        2 rows, team and opponent season stats
+        """
+        d = self.get_data()
+        return pd.DataFrame(d[1:], columns=d[0])
+
+    def to_dict(self):
+        d = self.__dict__.copy()
+        d.pop('_sa_instance_state')
+        return d
 
     def get_data(self):
         data = [self.features, [], []]

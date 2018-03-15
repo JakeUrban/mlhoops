@@ -70,13 +70,14 @@ def get_and_insert_data(year, offset=0):
                                 team_one_score=g[4], team_two_score=g[5])
                     session().add(game)
                     session().flush()
+                else:
+                    print("Tournament Game")
 
-                g_stats = gs.get_game_stats(endpoint)
-                with open(game.stats_path, 'w') as f:
-                    csv.writer(f).writerows(g_stats[0])
-                    csv.writer(f).writerows(g_stats[1])
+            g_stats = gs.get_game_stats(endpoint)
+            with open(game.stats_path, 'w') as f:
+                csv.writer(f).writerows(g_stats[0])
+                csv.writer(f).writerows(g_stats[1])
 
-            print("Got Game")
             already_seen.add(endpoint)
 
         session().commit()

@@ -3,6 +3,8 @@ from sqlalchemy import Column, Integer, ForeignKey, DateTime, String
 from mlhoops.db import Base
 from mlhoops.models.util import game_stats_path
 
+import pandas as pd
+
 
 class Game(Base):
     """
@@ -18,7 +20,7 @@ class Game(Base):
     tournament_id = Column(Integer, ForeignKey('tournaments.id'))
     date_played = Column(DateTime, nullable=False)
     stats_path = Column(String(255), nullable=False)
-    features = ['Minutes Played', 'Field Goals', 'Field Goal Attempts',
+    features = ['Player', 'Minutes Played', 'Field Goals', 'Field Goal Attempts',
                 'Field Goal Percentage', '2-Point Field Goals',
                 '2-Point Field Goal Attempts',
                 '2-Point Field Goal Percentage', '3-Point Field Goals',
@@ -40,8 +42,19 @@ class Game(Base):
         self.tournament_id = tournament_id
         self.stats_path = game_stats_path(self)
 
+    def dataframe(self):
+        d = self.get_data()
+        t1_df = pd.DataFrame(d[1], columns=d[0])
+        t2_df = pd.DataFrame(d[2], columns=d[0])
+        return t1_df, t2_df
+
+    def to_dict(self):
+        d = self.__dict__.copy()
+        d.pop('_sa_instance_state')
+        return d
+
     def __repr__(self):
-        return str(self.__dict__)
+        return str(self.to_dict())
 
     def get_data(self):
         with open(self.stats_path, 'r') as f:
@@ -52,6 +65,8 @@ class Game(Base):
                 if line == h_line:
                     cur_team = team_two
                     continue
-                for x in line.split(','):
-                    cur_team.append(float(x)) if x else cur_team.append(None)
+                line = line.split(',')
+                cur_team.append([line[0]])
+                for x in line[1:]:
+                    cur_team[-1].append(float(x)) if x else cur_team[-1].append(None)
             return [self.features, team_one, team_two]
