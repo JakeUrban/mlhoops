@@ -6,7 +6,5 @@ setup(
     version='0.1',
     packages=find_packages(),
     description='A machine learning application for NCAA basketball',
-    entry_points={
-        'console_scripts': ['mlhoops=mlhoops.driver:main']
-    }
+    entry_points={'console_scripts': ['mlhoops=mlhoops.driver:main']}
 )
