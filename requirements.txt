@@ -6,7 +6,7 @@ chardet==3.0.4
 coverage==4.4.1
 enum34==1.1.6
 flake8==3.4.1
-html5lib==0.9999999
+html5lib==0.99999999
 idna==2.6
 Mako==1.0.7
 Markdown==2.6.9
