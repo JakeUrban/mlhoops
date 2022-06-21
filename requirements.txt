@@ -14,7 +14,7 @@ MarkupSafe==1.0
 mccabe==0.6.1
 -e git+https://github.com/JakeUrban/mlhoops.git@bb9e51d01ee45ca13c34e0d530eea75cc5975d18#egg=mlhoops
 mock==2.0.0
-numpy==1.13.3
+numpy==1.22.0
 pandas==0.22.0
 pbr==3.1.1
 pipdeptree==0.10.1
